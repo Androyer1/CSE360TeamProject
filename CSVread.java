@@ -5,16 +5,40 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class CSVread {
 
+	//create a 2d ArrayList to store csv values
+	static List<List<String>> lines = new ArrayList<>();
+//    static String [] values; //array to hold csv files
 
-    static String [] values; //array to hold csv files
+	//default constructor
+	public CSVread() {
+		
+	}
+	
+	
+	
     public static void main(String[] args){
         readCSV(); //reading in the file into csv format
 
-        outputCSV(values);//outputting into csv file
+        //print values of csv file
+//        System.out.println(lines.get(1).get(2));
+        int lineNo = 1;
+        for(List<String> line: lines) {
+            int columnNo = 1;
+            for (String value: line) {
+                System.out.println("Line " + lineNo + " Column " + columnNo + ": " + value);
+                columnNo++;
+            }
+            lineNo++;
+        }
+//        outputCSV(values);//outputting into csv file
     }
 
     static void readCSV(){
@@ -24,15 +48,18 @@ public class CSVread {
             String line = "";
 
 
-            System.out.println("What is the filename?");
+            System.out.println("What is the file path?");
             String input = in.nextLine();
             File file = new File(input);
 
             BufferedReader br = new BufferedReader(new FileReader(file));
             
             while((line = br.readLine()) != null){
-                values = line.split(","); //cuts csv file into the array. 1-d array lol I'll work on making it 2d 
+                String[] values = line.split(","); //cuts csv file into the array. 1-d array lol I'll work on making it 2d 
+                lines.add(Arrays.asList(values));
+//                System.out.println(Arrays.toString(values));
             }
+//            inputStream.close();
         }
 
         catch (FileNotFoundException e){//error handling
@@ -69,5 +96,3 @@ public class CSVread {
        }
     }
 }
-
-
