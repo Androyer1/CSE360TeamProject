@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+
 
 public class CSVread {
 
@@ -72,24 +74,40 @@ public class CSVread {
     }
 
 
-    static void outputCSV(String[] values2){//outputting to a file method, need to work on this method still. 
+    static void outputCSV(List<List<String>> data){//outputting to a file method, need to work on this method still. 
 
+        List<List<String>> list = data;
+        String delim = "-";
+ 
+        StringBuilder sb = new StringBuilder();
+ 
+        int i = 0;
+        while (i < list.size() - 1)
+        {
+            sb.append(list.get(i));
+            sb.append(delim);
+            i++;
+        }
+        sb.append(list.get(i));
+ 
+        String res = sb.toString();
+        System.out.println(res);
+        
         try{
 
-            BufferedWriter br = new BufferedWriter(new FileWriter("outputfile.csv"));//writing to a output file
-            StringBuilder sb = new StringBuilder();
+            String[] split = (res.split("]"));
 
-            
-            for (String element : values2) {
-                sb.append(element);
-                sb.append(",");
+        FileWriter writer = new FileWriter("output.csv");
+
+        for(String s : split) {
+            String[] split2 = s.split("]");
+            writer.write(Arrays.asList(split2).stream().collect(Collectors.joining("]")));
+            writer.write("\n"); 
         }
 
-            br.write(sb.toString());
-            br.close();
+        writer.close();
 
-         }
-
+    }
         catch (IOException e) {
             System.out.println("\nError writing to output.csv!");
             e.printStackTrace();
