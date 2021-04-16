@@ -152,6 +152,7 @@ public class GUIApplication extends Frame implements ActionListener {
 		}
 		if(e.getSource() == btn4) {	//Save Data event handler
 			
+			loader.outputCSV(data);
 		}
 		if(e.getSource() == btn5) {	//Visualize Data event handler
 			
