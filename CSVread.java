@@ -27,7 +27,7 @@ public class CSVread {
 	
 	
     public static void main(String[] args){
-        readCSV(); //reading in the file into csv format
+//         readCSV(); //reading in the file into csv format
 
         //print values of csv file
 //        System.out.println(lines.get(1).get(2));
@@ -43,15 +43,16 @@ public class CSVread {
 //        outputCSV(values);//outputting into csv file
     }
 
-    static void readCSV(){
+    static void readCSV(String str){	//static bool readCSV?
 
         try{//try catch block to read file
             Scanner in = new Scanner(System.in);
             String line = "";
 
 
-            System.out.println("What is the file path?");
-            String input = in.nextLine();
+//             System.out.println("What is the file path?");
+		//should check if 'str' is a valid string
+            String input = str
             File file = new File(input);
 
             BufferedReader br = new BufferedReader(new FileReader(file));
