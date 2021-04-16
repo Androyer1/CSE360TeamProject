@@ -1,9 +1,23 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.JFrame;
 import javax.swing.*;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
 
 class Slice {
 	double value;
@@ -17,6 +31,8 @@ class Slice {
 
 public class GUIApplication extends JFrame implements ActionListener {
 
+	static List<List<String>> lines = new ArrayList<>();
+	
 	private JFrame frame;
 	JLayeredPane layeredPane;
 	
@@ -137,6 +153,9 @@ public class GUIApplication extends JFrame implements ActionListener {
 		btnSubmit_2 = new JButton("Submit");
 		btnSubmit_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String str = textField_7.getText();
+				readCSV(str);
+
 			}
 		});
 		sl_panel_2.putConstraint(SpringLayout.NORTH, btnSubmit_2, 0, SpringLayout.NORTH, lblPleaseEnterThe);
@@ -316,7 +335,7 @@ public class GUIApplication extends JFrame implements ActionListener {
 //			
 		}
 		if (e.getSource() == btnSubmit_2) {
-			loader.readCSV(textField_7.getText());
+			/*loader.readCSV(textField_7.getText());
 			System.out.println("Past thsi");
 			data = loader.lines;
 
@@ -364,14 +383,14 @@ public class GUIApplication extends JFrame implements ActionListener {
 				}
 				lineNo++;
 				numDoses++;
-			}
+			}*/
 		}
 		if (e.getSource() == btnAddData) { // Add Data event handler
 			switchPanels(panel_3);
 		}
 		if (e.getSource() == btnSaveData) { // Save Data event handler
 			switchPanels(panel_4);
-			loader.outputCSV(data);
+			outputCSV(data);
 		}
 		if (e.getSource() == btnVisualizeData) { // Visualize Data event handler
 			switchPanels(panel_5);
@@ -394,5 +413,79 @@ public class GUIApplication extends JFrame implements ActionListener {
 			}
 		});
 	}
+
+
+	static void readCSV(String str){	//static bool readCSV?
+
+        try{//try catch block to read file
+            Scanner in = new Scanner(System.in);
+            String line = "";
+
+
+//             System.out.println("What is the file path?");
+		//should check if 'str' is a valid string
+            String input = str;
+            File file = new File(input);
+
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            
+            while((line = br.readLine()) != null){
+                String[] values = line.split(","); //cuts csv file into the array. 1-d array lol I'll work on making it 2d 
+                lines.add(Arrays.asList(values));
+            	
+            }
+//            inputStream.close();
+        }
+
+        catch (FileNotFoundException e){//error handling
+            System.out.println("No such file was found");
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+	
+
+	static void outputCSV(List<List<String>> data){//outputting to a file method, need to work on this method still. 
+
+        data = lines;
+        String delim = "";
+ 
+        StringBuilder sb = new StringBuilder();
+ 
+        int i = 0;
+        while (i < data.size() - 1)
+        {
+            sb.append(data.get(i));
+            sb.append(delim);
+            i++;
+        }
+        sb.append(data.get(i));
+ 
+        String res = sb.toString();
+        
+        try{
+
+            String[] split = (res.split("]"));
+
+        FileWriter writer = new FileWriter("output.csv");
+
+        for(String s : split) {
+            String[] split2 = s.split("]");
+            writer.write(Arrays.asList(split2).stream().collect(Collectors.joining("[")));
+            writer.write("\n"); 
+        }
+
+        writer.close();
+
+    }
+        catch (IOException e) {
+            System.out.println("\nError writing to output.csv!");
+            e.printStackTrace();
+       }
+    }
+
 
 }
