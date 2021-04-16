@@ -36,20 +36,13 @@ public class GUIApplication extends JFrame implements ActionListener {
 	
 	JTextField textField_7; //load data textField
 
-	CSVread loader = new CSVread();
+	CSVread loader = new CSVread();	//Use these to store data for visualization
 	static List<List<String>> data = new ArrayList<>();
 	List<Integer> dosesByLocation = new ArrayList<>();
 	List<String> doses_By_Location = new ArrayList<>();
 	List<Integer> dosesByType = new ArrayList<>();
 	List<String> doses_By_Type = new ArrayList<>();
 
-	JLabel about1 = new JLabel("Team #idk");
-	JLabel about2 = new JLabel("Anna Mendenhall");
-	JLabel about3 = new JLabel("Andrew Miller");
-	JLabel about4 = new JLabel("Khang Nguyen");
-	JLabel about5 = new JLabel("Sathya Kumaraguru");
-	JLabel lb1;
-	JTextField txt1;
 	JButton btnNewButton;
 	JButton btnLoadData;
 	JButton btnAddData;
@@ -57,7 +50,6 @@ public class GUIApplication extends JFrame implements ActionListener {
 	JButton btnVisualizeData;
 	JButton btnSubmit_2;
 	JButton btnSubmit_3;
-	JFrame mainFrame = new JFrame();
 
 	Color[] colorList = { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.CYAN, Color.WHITE,
 			Color.BLACK, Color.GRAY, Color.LIGHT_GRAY, Color.DARK_GRAY, Color.PINK, Color.ORANGE };
