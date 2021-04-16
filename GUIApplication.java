@@ -32,7 +32,7 @@ class Slice {
 public class GUIApplication extends JFrame implements ActionListener {
 
 	static List<List<String>> lines = new ArrayList<>();
-	
+	int hello = 0;
 	private JFrame frame;
 	JLayeredPane layeredPane;
 	
@@ -138,30 +138,8 @@ public class GUIApplication extends JFrame implements ActionListener {
 		SpringLayout sl_panel_2 = new SpringLayout();
 		panel_2.setLayout(sl_panel_2);
 		
-		JLabel lblPleaseEnterThe = new JLabel("Please enter the filepath:");
-		sl_panel_2.putConstraint(SpringLayout.NORTH, lblPleaseEnterThe, 10, SpringLayout.NORTH, panel_2);
-		sl_panel_2.putConstraint(SpringLayout.WEST, lblPleaseEnterThe, 10, SpringLayout.WEST, panel_2);
-		panel_2.add(lblPleaseEnterThe);
-		
-		textField_7 = new JTextField();
-		sl_panel_2.putConstraint(SpringLayout.NORTH, textField_7, 10, SpringLayout.NORTH, panel_2);
-		sl_panel_2.putConstraint(SpringLayout.WEST, textField_7, 6, SpringLayout.EAST, lblPleaseEnterThe);
-		sl_panel_2.putConstraint(SpringLayout.EAST, textField_7, 231, SpringLayout.EAST, lblPleaseEnterThe);
-		panel_2.add(textField_7);
-		textField_7.setColumns(10);
-		
-		btnSubmit_2 = new JButton("Submit");
-		btnSubmit_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String str = textField_7.getText();
-				readCSV(str);
 
-			}
-		});
-		sl_panel_2.putConstraint(SpringLayout.NORTH, btnSubmit_2, 0, SpringLayout.NORTH, lblPleaseEnterThe);
-		sl_panel_2.putConstraint(SpringLayout.WEST, btnSubmit_2, 6, SpringLayout.EAST, textField_7);
-		panel_2.add(btnSubmit_2);
-		
+
 		panel_3 = new JPanel();
 		layeredPane.add(panel_3, "name_128767402394400");
 		SpringLayout sl_panel_3 = new SpringLayout();
@@ -326,26 +304,37 @@ public class GUIApplication extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-
+		
 		if (e.getSource() == btnNewButton) { // About event handler
 			switchPanels(panel_1);
 		}
 		if (e.getSource() == btnLoadData) { // Load Data event handler
 			switchPanels(panel_2);
-//			
-		}
+			if(hello != 1){
+			String userenters;
+			userenters= JOptionPane.showInputDialog ("What is the filepath?");	
+			hello = readCSV(userenters);
+			}
+			String[] header = {"ID", "Last Name", "First Name", "Vaccine Type", "Vaccination Date", "Vaccine Location" };
+					String[][] tempTable = new String[lines.size()][]; 
+					int i = 0;
+					for (List<String> next : lines) {
+						tempTable[i++] = next.toArray(new String[next.size()]); // return Object[][]
+				}
+			JTable EndTable = new JTable(tempTable,header);
+			EndTable.setBounds(30, 40, 200, 300);
+			panel_2.add(new JScrollPane(EndTable));	
+}
 		if (e.getSource() == btnSubmit_2) {
-			/*loader.readCSV(textField_7.getText());
-			System.out.println("Past thsi");
+			loader.readCSV(textField_7.getText());
+			System.out.println("Past this");
 			data = loader.lines;
-
 			// Store values in separate arrays for easy access
 			int lineNo = 1;
 			for (List<String> line : data) {
 				int columnNo = 1;
 				for (String value : line) {
 					System.out.println("Line " + lineNo + " Column " + columnNo + ": " + value);
-
 					if (columnNo == 6) {
 						// Check if Location is already in list doses_By_Location - false then continue
 						boolean locFound = false;
@@ -356,7 +345,6 @@ public class GUIApplication extends JFrame implements ActionListener {
 								locFound = true;
 							}
 						}
-
 						// Find total number of occurences of this location.
 						if (!locFound) {
 							int lineNo2 = 1;
@@ -374,24 +362,25 @@ public class GUIApplication extends JFrame implements ActionListener {
 								}
 							}
 						}
-
 						// Add number occurences to dosesByLocation
 						dosesByLocation.add(occurences);
 					}
-
 					columnNo++;
 				}
 				lineNo++;
 				numDoses++;
-			}*/
+			}
+			
 		}
 		if (e.getSource() == btnAddData) { // Add Data event handler
 			switchPanels(panel_3);
 		}
+
 		if (e.getSource() == btnSaveData) { // Save Data event handler
 			switchPanels(panel_4);
 			outputCSV(data);
 		}
+
 		if (e.getSource() == btnVisualizeData) { // Visualize Data event handler
 			switchPanels(panel_5);
 			if (data.isEmpty()) {
@@ -415,7 +404,7 @@ public class GUIApplication extends JFrame implements ActionListener {
 	}
 
 
-	static void readCSV(String str){	//static bool readCSV?
+	int readCSV(String str){	//static bool readCSV?
 
         try{//try catch block to read file
             Scanner in = new Scanner(System.in);
@@ -443,6 +432,10 @@ public class GUIApplication extends JFrame implements ActionListener {
         catch (IOException e){
             e.printStackTrace();
         }
+
+		return 1;
+		
+
 
     }
 
