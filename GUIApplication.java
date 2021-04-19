@@ -241,14 +241,8 @@ public class GUIApplication extends JFrame implements ActionListener {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Map<String,Integer> map = new HashMap<>();
-
-				for(List<String> l : lines) {
-				    String name = l.get(3);
-				    int count = map. getOrDefault(name,0);
-				    count++;
-				    map.put(name,count);
-				}
-				System.out.print(map);
+				Map<String, Long> result = lines.stream().skip(1).collect(Collectors.groupingBy(list -> list.get(3), Collectors.counting()));
+				System.out.println(result);
 			}
 		});
 		panel_5.add(btnNewButton_2);
@@ -257,14 +251,8 @@ public class GUIApplication extends JFrame implements ActionListener {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					Map<String,Integer> map = new HashMap<>();
-
-					for(List<String> l : lines) {
-					    String name = l.get(5);
-					    int count = map. getOrDefault(name,0);
-					    count++;
-					    map.put(name,count);
-					}
-					System.out.print(map);
+					Map<String, Long> result = lines.stream().skip(1).collect(Collectors.groupingBy(list -> list.get(5), Collectors.counting()));
+					System.out.println(result);
 				}
 			}
 		);
@@ -367,7 +355,6 @@ public class GUIApplication extends JFrame implements ActionListener {
 				textField_6.setText("");
 				
 				
-				
 			}
 		});
 		panel_3.add(btnSubmit_3);
@@ -398,50 +385,7 @@ public class GUIApplication extends JFrame implements ActionListener {
 			
 }
 		if (e.getSource() == btnSubmit_2) {
-			/*loader.readCSV(textField_7.getText());
-			System.out.println("Past this");
-			//data = loader.lines;
-			// Store values in separate arrays for easy access
-			int lineNo = 1;
-			for (List<String> line : data) {
-				int columnNo = 1;
-				for (String value : line) {
-					System.out.println("Line " + lineNo + " Column " + columnNo + ": " + value);
-					if (columnNo == 6) {
-						// Check if Location is already in list doses_By_Location - false then continue
-						boolean locFound = false;
-						int occurences = 0;
-						for (String location : doses_By_Location) {
-							if (value.equals(location)) {
-								System.out.println("Location found already");
-								locFound = true;
-							}
-						}
-						// Find total number of occurences of this location.
-						if (!locFound) {
-							int lineNo2 = 1;
-							for (List<String> line2 : data) {
-								int columnNo2 = 1;
-//		                		if(line2.get(6).equals(value)) {
-//		                			test to see if this works
-//		                		}
-								for (String value2 : line2) {
-									if (columnNo2 == 6) {
-										if (value.equals(value2)) {
-											occurences++;
-										}
-									}
-								}
-							}
-						}
-						// Add number occurences to dosesByLocation
-						dosesByLocation.add(occurences);
-					}
-					columnNo++;
-				}
-				lineNo++;
-				numDoses++;
-			}*/
+			
 			
 		}
 		if (e.getSource() == btnAddData) { // Add Data event handler
