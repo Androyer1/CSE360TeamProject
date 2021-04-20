@@ -79,6 +79,15 @@ public class GUIApplication extends JFrame implements ActionListener {
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
 
+	public PieDataset createPieData(Map<String, Long> map) {
+		DefaultPieDataset dataset = new DefaultPieDataset();
+		for (Map.Entry<String, Long> entry : map.entrySet()) {
+			dataset.setValue(entry.getKey(), entry.getValue());
+//		    System.out.println(entry.getKey() + "/" + entry.getValue());
+		}
+		return dataset;
+	}
+	
 	public Slice[] createSlices() {
 		Slice[] slices = new Slice[numDoses];
 		int colorInt = 0;
