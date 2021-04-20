@@ -13,13 +13,21 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.jfree.chart.*;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.*;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
@@ -87,6 +95,24 @@ public class GUIApplication extends JFrame implements ActionListener {
 		}
 		return dataset;
 	}
+	
+	private CategoryDataset createDataset(Map<String, Long> map) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
+        for (Map.Entry<String, Long> entry : map.entrySet()) {
+//        	dataset.setValue(value, rowKey, columnKey);
+//			dataset.setValue(entry.getKey(), entry.getValue());
+        	dataset.addValue(entry.getValue(), entry.getKey(), "Frequency");
+		    System.out.println(entry.getKey() + "/" + entry.getValue());
+		}
+//        dataset.addValue(Double.valueOf(map.get("Sinovac")),"Sinovac","Frequency");
+//        dataset.addValue(Double.valueOf(map.get("Pfizer")),"Pfizer","Frequency");
+//        dataset.addValue(Double.valueOf(map.get("Moderna")),"Moderna","Frequency");
+//        dataset.addValue(Double.valueOf(map.get("Johnson&Johnson")),"Johnson&Johnson","Frequency");
+//        dataset.addValue(Double.valueOf(map.get("AstraZeneca")),"AstraZeneca","Frequency");
+//        dataset.addValue(Double.valueOf(map.get("Novavax")),"Novavax","Frequency");
+        return dataset;
+
+    }
 	
 	public Slice[] createSlices() {
 		Slice[] slices = new Slice[numDoses];
@@ -251,6 +277,18 @@ public class GUIApplication extends JFrame implements ActionListener {
 
 		panel_5 = new JPanel();
 		layeredPane.add(panel_5, "name_128773653199000");
+		
+//		layeredPane_1 = new JLayeredPane();
+//		panel_5.add(layeredPane_1);
+//		
+//		JPanel panel_6 = new JPanel();
+//		panel_6.setBounds(-28, 21, 470, 390);
+//		layeredPane_1.add(panel_6);
+//		
+//		JPanel panel_7 = new JPanel();
+//		panel_7.setLayout(new java.awt.BorderLayout());
+//		panel_7.setBounds(-28, 21, 470, 390);
+//		layeredPane_1.add(panel_7);
 
 		btnNewButton_2 = new JButton("Show Frequency of Vaccine Types");
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -259,6 +297,18 @@ public class GUIApplication extends JFrame implements ActionListener {
 				Map<String, Long> result = lines.stream().skip(1)
 						.collect(Collectors.groupingBy(list -> list.get(3), Collectors.counting()));
 				System.out.println(result);
+				JFreeChart barChart = ChartFactory.createBarChart(
+						"Vaccine Frequency by Type",
+						"Vaccine Type",
+						"Frequency",
+						createDataset(result),
+						PlotOrientation.VERTICAL,
+						true, 
+						true, 
+						false);
+        		ChartFrame CP = new ChartFrame("Bar Chart", barChart);
+        		CP.setVisible(true);
+        		CP.setSize(450, 500);
 			}
 		});
 		panel_5.add(btnNewButton_2);
@@ -270,10 +320,19 @@ public class GUIApplication extends JFrame implements ActionListener {
 				Map<String, Long> result = lines.stream().skip(1)
 						.collect(Collectors.groupingBy(list -> list.get(5), Collectors.counting()));
 				System.out.println(result);
+				PieDataset dataset = createPieData(result);
+				JFreeChart chart = ChartFactory.createPieChart(
+						"Doses By Location",
+						dataset,
+						true,
+						true,
+						false);
 				PiePlot p = (PiePlot)chart.getPlot();
 				ChartFrame CP = new ChartFrame("Pie Chart", chart);
 				CP.setVisible(true);
 				CP.setSize(450, 500);
+//				JFreeChart chart = new JFreeChart("Cos(x) and Cos^2(x) versus x", parent);
+//				panel_7.add(chart, BorderLayout.CENTER);
 			}
 		});
 		panel_5.add(btnNewButton_1);
