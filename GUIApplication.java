@@ -34,16 +34,6 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.*;
 
-class Slice {
-	double value;
-	Color color;
-
-	public Slice(double value, Color color) {
-		this.value = value;
-		this.color = color;
-	}
-}
-
 public class GUIApplication extends JFrame implements ActionListener {
 
 	static List<List<String>> lines = new ArrayList<>();
