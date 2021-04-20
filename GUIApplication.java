@@ -1,6 +1,6 @@
 package newPackage;
 
-import java.awt.*;
+import java.awt.*; //importing the neccesary libraries for the project
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -29,26 +29,26 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
-import javax.swing.*;
+import javax.swing.*; //importing javaswing lirbaries used for tables
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.*;
 
-public class GUIApplication extends JFrame implements ActionListener {
+public class GUIApplication extends JFrame implements ActionListener { //main GUIApplication which holds JFrame
 
-	static List<List<String>> lines = new ArrayList<>();
-	int isPressed = 0;
-	private JFrame frame;
+	static List<List<String>> lines = new ArrayList<>(); //lines which is an arraylist used for reading csv files
+	int isPressed = 0; //ispressed used to check if user sumbits the file 
+	private JFrame frame;  //intializing the gui for the application
 	JLayeredPane layeredPane;
 	JLayeredPane layeredPane_1;
 	JTable EndTable = new JTable();
 
-	JPanel panel_1;
+	JPanel panel_1; //panels intialized for the gui
 	JPanel panel_2;
 	JPanel panel_3;
 	JPanel panel_4;
 	JPanel panel_5;
-	JTextField textField_1;
+	JTextField textField_1; //textfields used mainly for reading in user value
 	JTextField textField_2;
 	JTextField textField_3;
 	JTextField textField_4;
@@ -64,7 +64,7 @@ public class GUIApplication extends JFrame implements ActionListener {
 	List<Integer> dosesByType = new ArrayList<>();
 	List<String> doses_By_Type = new ArrayList<>();
 
-	JButton btnNewButton;
+	JButton btnNewButton; //button needed for the GUI
 	JButton btnLoadData;
 	JButton btnAddData;
 	JButton btnSaveData;
@@ -73,12 +73,12 @@ public class GUIApplication extends JFrame implements ActionListener {
 	JButton btnSubmit_3;
 
 	Color[] colorList = { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.MAGENTA, Color.CYAN, Color.WHITE,
-			Color.BLACK, Color.GRAY, Color.LIGHT_GRAY, Color.DARK_GRAY, Color.PINK, Color.ORANGE };
+			Color.BLACK, Color.GRAY, Color.LIGHT_GRAY, Color.DARK_GRAY, Color.PINK, Color.ORANGE }; 
 	int numDoses = 0;
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
 
-	public PieDataset createPieData(Map<String, Long> map) {
+	public PieDataset createPieData(Map<String, Long> map) { //PIedata cast which is used to create an array with locations
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		for (Map.Entry<String, Long> entry : map.entrySet()) {
 			dataset.setValue(entry.getKey(), entry.getValue());
@@ -87,7 +87,7 @@ public class GUIApplication extends JFrame implements ActionListener {
 		return dataset;
 	}
 
-	private CategoryDataset createDataset(Map<String, Long> map) {
+	private CategoryDataset createDataset(Map<String, Long> map) { //data set used to store which vaccines were used
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (Map.Entry<String, Long> entry : map.entrySet()) {
 			dataset.addValue(entry.getValue(), entry.getKey(), "Frequency");
@@ -96,7 +96,7 @@ public class GUIApplication extends JFrame implements ActionListener {
 		return dataset;
 	}
 
-	public void switchPanels(JPanel panel) {
+	public void switchPanels(JPanel panel) { 
 		layeredPane.removeAll();
 		layeredPane.add(panel);
 		layeredPane.repaint();
@@ -108,7 +108,7 @@ public class GUIApplication extends JFrame implements ActionListener {
 		// Begin drawing
 	}
 
-	private void initialize() {
+	private void initialize() { //drawing the GUI, creating the neccesary panels/buttons for the GUI
 		frame = new JFrame();
 		frame.setBounds(100, 100, 500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -228,12 +228,12 @@ public class GUIApplication extends JFrame implements ActionListener {
 //		panel_7.setBounds(-28, 21, 470, 390);
 //		layeredPane_1.add(panel_7);
 
-		btnNewButton_2 = new JButton("Show Frequency of Vaccine Types");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnNewButton_2 = new JButton("Show Frequency of Vaccine Types"); //button on visualize data for showing frequency 
+		btnNewButton_2.addActionListener(new ActionListener() { 
+			public void actionPerformed(ActionEvent e) { //runs when the button is pressed, creates a bar chart of the frequencies
 				Map<String, Integer> map = new HashMap<>();
 				Map<String, Long> result = lines.stream().skip(1)
-						.collect(Collectors.groupingBy(list -> list.get(3), Collectors.counting()));
+						.collect(Collectors.groupingBy(list -> list.get(3), Collectors.counting())); 
 				System.out.println(result);
 				JFreeChart barChart = ChartFactory.createBarChart("Vaccine Frequency by Type", "Vaccine Type",
 						"Frequency", createDataset(result), PlotOrientation.VERTICAL, true, true, false);
@@ -244,9 +244,9 @@ public class GUIApplication extends JFrame implements ActionListener {
 		});
 		panel_5.add(btnNewButton_2);
 
-		btnNewButton_1 = new JButton("Show Frequency of Vaccine Location");
+		btnNewButton_1 = new JButton("Show Frequency of Vaccine Location"); //button for pie data for showing freq of location
 		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) { //when button is pressed, shows a pie chart of freq of location
 				Map<String, Integer> map = new HashMap<>();
 				Map<String, Long> result = lines.stream().skip(1)
 						.collect(Collectors.groupingBy(list -> list.get(5), Collectors.counting()));
@@ -261,11 +261,12 @@ public class GUIApplication extends JFrame implements ActionListener {
 		});
 		panel_5.add(btnNewButton_1);
 
-		JLabel lblTeamidk = new JLabel("Team 49");
+		JLabel lblTeamidk = new JLabel("Team 49"); //label for group name
 		lblTeamidk.setBounds(10, 10, 180, 14);
 		lblTeamidk.setHorizontalAlignment(SwingConstants.LEFT);
 		panel_1.add(lblTeamidk);
-
+		
+		//labels used for team member names
 		JLabel lblNewLabel = new JLabel("Anna Mendenhall");
 		lblNewLabel.setBounds(10, 36, 208, 14);
 		panel_1.add(lblNewLabel);
@@ -289,21 +290,21 @@ public class GUIApplication extends JFrame implements ActionListener {
 		btnNewButton.addActionListener(this);
 		panel.add(btnNewButton);
 
-		btnLoadData = new JButton("Load Data");
+		btnLoadData = new JButton("Load Data"); //load data button which asks user for input and creates a table
 		btnLoadData.addActionListener(this);
 		btnLoadData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				switchPanels(panel_2);
-				if (isPressed != 1) {
+				if (isPressed != 1) { //if the file isn't read yet it will run this if statement
 					String userenters;
 					userenters = JOptionPane.showInputDialog("What is the filepath?");
 					isPressed = readCSV(userenters);
 				}
-				String[] header = { "ID", "Last Name", "First Name", "Vaccine Type", "Vaccination Date",
+				String[] header = { "ID", "Last Name", "First Name", "Vaccine Type", "Vaccination Date", //creating a table header
 						"Vaccine Location" };
-				String[][] tempTable = new String[lines.size()][];
+				String[][] tempTable = new String[lines.size()][]; 
 				int i = 0;
-				for (List<String> next : lines) {
+				for (List<String> next : lines) { //goes through the arraylist and stores it in lines(dataset)
 					tempTable[i++] = next.toArray(new String[next.size()]); // return Object[][]
 				}
 				DefaultTableModel model = new DefaultTableModel(tempTable, header);
@@ -315,19 +316,21 @@ public class GUIApplication extends JFrame implements ActionListener {
 		});
 		panel.add(btnLoadData);
 
-		btnSubmit_3 = new JButton("Submit");
+		btnSubmit_3 = new JButton("Submit"); //submit button which takes in user input fields and stores it in the table
 		sl_panel_3.putConstraint(SpringLayout.NORTH, btnSubmit_3, 23, SpringLayout.SOUTH, textField_6);
 		sl_panel_3.putConstraint(SpringLayout.WEST, btnSubmit_3, 138, SpringLayout.WEST, panel_3);
 		btnSubmit_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) { //getting the user input text and adding it to the array
+				//taking in user values and setting it to the right variable
 				String id = textField_1.getText();
 				String Lname = textField_2.getText();
 				String Fname = textField_3.getText();
 				String Vtype = textField_4.getText();
 				String Vdate = textField_5.getText();
 				String Loc = textField_6.getText();
-
-				if (textField_1.getText().equals("")) {
+				
+				//putting out an output message if there is a blank line
+				if (textField_1.getText().equals("")) { 
 					JOptionPane.showOptionDialog(null, "Id is empty!", "Error!", JOptionPane.DEFAULT_OPTION,
 							JOptionPane.INFORMATION_MESSAGE, null, new Object[] {}, null);
 				}
@@ -351,12 +354,13 @@ public class GUIApplication extends JFrame implements ActionListener {
 					JOptionPane.showOptionDialog(null, "Location is empty!", "Error!", JOptionPane.DEFAULT_OPTION,
 							JOptionPane.INFORMATION_MESSAGE, null, new Object[] {}, null);
 				}
-
+				
+				//if there is no blank lines, the values are added to the list
 				else {
 					List<String> new_row = Arrays.asList(id, Lname, Fname, Vtype, Vdate, Loc);
 					lines.add(new_row);
 				}
-				textField_1.setText("");
+				textField_1.setText(""); //setting the fieldtexts back to null
 				textField_2.setText("");
 				textField_3.setText("");
 				textField_4.setText("");
@@ -422,7 +426,7 @@ public class GUIApplication extends JFrame implements ActionListener {
 		});
 	}
 
-	int readCSV(String str) { // static bool readCSV?
+	int readCSV(String str) { // read csv file which takes in a string(userfile) and stores the csv values
 
 		try {// try catch block to read file
 			Scanner in = new Scanner(System.in);
@@ -435,8 +439,7 @@ public class GUIApplication extends JFrame implements ActionListener {
 			BufferedReader br = new BufferedReader(new FileReader(file));
 
 			while ((line = br.readLine()) != null) {
-				String[] values = line.split(","); // cuts csv file into the array. 1-d array lol I'll work on making it
-													// 2d
+				String[] values = line.split(","); // cuts csv file into the array.
 				lines.add(Arrays.asList(values));
 			}
 			return 1;
@@ -453,38 +456,34 @@ public class GUIApplication extends JFrame implements ActionListener {
 
 	}
 
-	static void outputCSV(List<List<String>> data) {// outputting to a file method, need to work on this method still.
+	static void outputCSV(List<List<String>> data) {// outputting to a file method, which goes through the arraylist and into a csv file
 
-		data = lines;
-		String delim = "";
+		data = lines; //setting data equal to the input array
+		String delim = ""; 
 
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(); //intializing the stringbuilder
 
 		int i = 0;
-		while (i < data.size() - 1) {
+		while (i < data.size() - 1) {  //goes thorugh the array and appends, incremting until it finishes the entire file
 			sb.append(data.get(i));
 			sb.append(delim);
 			i++;
 		}
 		sb.append(data.get(i));
+		String res = sb.toString(); //save the entire file into a string
 
-		String res = sb.toString();
+		try { //try catch block which prints out to the output csv 
+			String[] split = (res.split("]")); //splits when it hits this char
+			FileWriter writer = new FileWriter("output.csv"); //output file name
 
-		try {
-
-			String[] split = (res.split("]"));
-
-			FileWriter writer = new FileWriter("output.csv");
-
-			for (String s : split) {
+			for (String s : split) { //goes through each line and puts it in the file
 				String[] split2 = s.split("]");
 				writer.write(Arrays.asList(split2).stream().collect(Collectors.joining("]")));
 				writer.write("\n");
 			}
-
 			writer.close();
 
-		} catch (IOException e) {
+		} catch (IOException e) { //error handling if it can't write to the file
 			System.out.println("\nError writing to output.csv!");
 			e.printStackTrace();
 		}
