@@ -242,17 +242,6 @@ public class GUIApplication extends JFrame implements ActionListener {
 
 		panel_5 = new JPanel();
 		layeredPane.add(panel_5, "name_128773653199000");
-		
-		layeredPane_1 = new JLayeredPane();
-		panel_5.add(layeredPane_1);
-		
-		JPanel panel_6 = new JPanel();
-		panel_6.setBounds(-28, 21, 470, 390);
-		layeredPane_1.add(panel_6);
-		
-		JPanel panel_7 = new JPanel();
-		panel_7.setBounds(-28, 21, 470, 390);
-		layeredPane_1.add(panel_7);
 
 		btnNewButton_2 = new JButton("Show Frequency of Vaccine Types");
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -261,7 +250,6 @@ public class GUIApplication extends JFrame implements ActionListener {
 				Map<String, Long> result = lines.stream().skip(1)
 						.collect(Collectors.groupingBy(list -> list.get(3), Collectors.counting()));
 				System.out.println(result);
-				switchGraphs(panel_6);
 			}
 		});
 		panel_5.add(btnNewButton_2);
@@ -273,9 +261,10 @@ public class GUIApplication extends JFrame implements ActionListener {
 				Map<String, Long> result = lines.stream().skip(1)
 						.collect(Collectors.groupingBy(list -> list.get(5), Collectors.counting()));
 				System.out.println(result);
-				switchGraphs(panel_7);
-//				JFreeChart chart = new JFreeChart("Cos(x) and Cos^2(x) versus x", parent);
-//				panel_7.add(chart, BorderLayout.CENTER);
+				PiePlot p = (PiePlot)chart.getPlot();
+				ChartFrame CP = new ChartFrame("Pie Chart", chart);
+				CP.setVisible(true);
+				CP.setSize(450, 500);
 			}
 		});
 		panel_5.add(btnNewButton_1);
